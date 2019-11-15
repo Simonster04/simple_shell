@@ -17,6 +17,11 @@ int main()
 		printf("$ ");
 		len = (getline(&line, &size, stdin));
 		printf("%s", line);
+
+
+	/*When argv[1] == "exit"; perror and return -1*/
+
+
 	}
-	return (0);
+	return (len);
 }
