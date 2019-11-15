@@ -11,17 +11,15 @@
 
 int main(int argc, char *argv[])
 {
-	char *token;
-	char *saveptr = *argv;
+	int i = 0;
 
-/*	token = strtok_r(saveptr, " ", &saveptr);
-*/	while (*argv)
-	{	token = strtok_r(saveptr, " ", &saveptr);
-
-		printf("%s\n", token);
+	while (argv[i])
+	{
+		printf("%s\n", argv[i]);
+		i++;
 	}
-token = strtok_r(NULL, " ", &saveptr);
 	argc = 0;
+
 	return (argc);
 }
 
