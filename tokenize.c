@@ -13,7 +13,7 @@
  *
  * Return: Always 0.
  */
-int main(/*int ac, char **av*/)
+int (/*int ac, char **av*/)
 {
 	size_t size = 0;
 	ssize_t len = 0;

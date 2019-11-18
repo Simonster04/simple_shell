@@ -2,15 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main(int argc, char **argv)
+char* psh_read_line(void)
 {
 	size_t sz = 0;
 	ssize_t len = 0;
 	char *line = NULL;
 
-	printf("$ ");
 	len = getline(&line, &sz, stdin);
-	printf("%s", line);
+	printf("$ %s", line);
 
-	return (0);
+	return (line);
 }
+
+char **
