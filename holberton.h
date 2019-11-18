@@ -7,11 +7,9 @@
 #include <string.h>
 
 char* psh_read_line(void);
-
-
-
-
-int _putchar(char c);
+void psh_loop(void);
+char **psh_tokenize(char *len);
+int psh_execute(char **line);
 
 
 #endif

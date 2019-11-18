@@ -6,8 +6,9 @@
  * Return: Always 0.
  */
 
-int main(int ac, char **av)
+int main(void)
 {
-	psh_loop()
+	psh_loop();
+
 	return (0);
 }
