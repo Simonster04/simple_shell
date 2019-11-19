@@ -51,7 +51,6 @@ char **psh_tokenize(char *args)
 	}
 
 	line[pos] = NULL;
-	printf("%d\n", pos);
 	return (line);
 }
 
@@ -68,11 +67,10 @@ int psh_init(char **line)
 	pid_t pid;
 	int status_w = 0;
 
-	printf("%s\n", line[0]);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(line[0], line, NULL) == -1)
+		if (execve(line[0], line, NULL) < 0)
 		{
 			perror("Error with execve");
 		}
