@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 
 	printf("$ ");
 	len = getline(&line, &sz, stdin);
-	printf("%s", line);
+	printf("$ %s", line);
 
 	return (0);
 }
