@@ -32,12 +32,13 @@ char **psh_tokenize(char *args)
 	{
 		return (NULL);
 	}
-	args = strtok(len, " ");
 
-	while (args)
+	len = strtok(args, " ");
+	while (len)
 	{
-		line[pos] = args;
+		line[pos] = len;
 		pos++;
+		len = strtok(NULL, " ");
 	}
 	if (pos >= buff)
 	{
@@ -48,15 +49,14 @@ char **psh_tokenize(char *args)
 		return (NULL);
 		}
 	}
-	args = strtok(NULL, " ");
-	line[pos] = NULL;
 
+	line[pos] = NULL;
+	printf("%d\n", pos);
 	return (line);
 }
 
 int psh_execution(char** line)
 {
-
 	if (line[0] == NULL)
 		return (1);
 
@@ -68,6 +68,7 @@ int psh_init(char **line)
 	pid_t pid;
 	int status_w = 0;
 
+	printf("%s\n", line[0]);
 	pid = fork();
 	if (pid == 0)
 	{
