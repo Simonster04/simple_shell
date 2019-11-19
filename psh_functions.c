@@ -3,6 +3,8 @@
 #include <string.h>
 #include <sys/types.h>
 
+#define PSH_BUFF_SIZE 64
+
 char* psh_read_line(void)
 {
 	size_t sz = 1024;
@@ -17,8 +19,8 @@ char* psh_read_line(void)
 char **psh_tokenize(char *args)
 {
 	char *len = NULL;
-	int pos = 0;
-	char **line = malloc(sizeof(char*) * 64);
+	int pos = 0, buff = PSH_BUFF_SIZE;
+	char **line = malloc(sizeof(char*) * buff);
 
 	if (line == NULL)
 	{
@@ -31,7 +33,16 @@ char **psh_tokenize(char *args)
 		line[pos] = args;
 		pos++;
 	}
-
+	if (pos >= buff)
+	{
+		buff += PSH_BUFF_SIZE;
+		/*hacer realloc en vez de malloc*/
+		line = malloc(sizeof(char*) * buff);
+		if (line == NULL)
+		{
+		return (NULL);
+		}
+	}
 	args = strtok(NULL, " ");
 	line[pos] = NULL;
 
