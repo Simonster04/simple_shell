@@ -66,13 +66,12 @@ int psh_execution(char** line)
 int psh_init(char **line)
 {
 	pid_t pid;
-	int status_w = 0, status_f = 0;
+	int status_w = 0;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		status_f = execve(line[0], line, NULL);
-		if (status_f == EOF)
+		if (execve(line[0], line, NULL) == -1)
 		{
 			perror("Error with execve");
 		}
