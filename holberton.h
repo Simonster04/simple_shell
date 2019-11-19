@@ -10,6 +10,6 @@ char* psh_read_line(void);
 void psh_loop(void);
 char **psh_tokenize(char *len);
 int psh_execute(char **line);
-
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 #endif

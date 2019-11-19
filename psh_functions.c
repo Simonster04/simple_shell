@@ -19,7 +19,7 @@ char* psh_read_line(void)
 char **psh_tokenize(char *args)
 {
 	char *len = NULL;
-	int pos = 0, buff = PSH_BUFF_SIZE;
+	int pos = 0, buff = PSH_BUFF_SIZE, buff2 = 0;
 	char **line = malloc(sizeof(char*) * buff);
 
 	if (line == NULL)
@@ -35,9 +35,8 @@ char **psh_tokenize(char *args)
 	}
 	if (pos >= buff)
 	{
-		buff += PSH_BUFF_SIZE;
-		/*hacer realloc en vez de malloc*/
-		line = malloc(sizeof(char*) * buff);
+		buff2 = buff + PSH_BUFF_SIZE;
+		line = _realloc(line, sizeof(char*) * buff, sizeof(char*) * buff2);
 		if (line == NULL)
 		{
 		return (NULL);
