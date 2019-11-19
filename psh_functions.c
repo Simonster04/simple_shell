@@ -1,9 +1,15 @@
+#include "holberton.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define PSH_BUFF_SIZE 64
+
+
+int psh_init(char **line);
 
 char* psh_read_line(void)
 {
@@ -48,11 +54,10 @@ char **psh_tokenize(char *args)
 	return (line);
 }
 
-int psh_execution(**char line)
+int psh_execution(char** line)
 {
-	int i = 0;
 
-	if (line[0] == NULL || line[0] == EOF)
+	if (line[0] == NULL)
 		return (1);
 
 	return (psh_init(line));
@@ -61,4 +66,29 @@ int psh_execution(**char line)
 int psh_init(char **line)
 {
 	pid_t pid;
+	int status_w = 0, status_f = 0;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		status_f = execve(line[0], line, NULL);
+		if (status_f == EOF)
+		{
+			perror("Error with execve");
+		}
+		exit(EXIT_FAILURE);
+	}
+	else if (pid < 0)
+	{
+		perror("Error process failure");
+	}
+	else
+	{
+		do {
+		waitpid(pid, &status_w, WUNTRACED);
+		}
+		while ((WIFEXITED(status_w) == 0) && (WIFSIGNALED(status_w) == 0));
+	}
+	return (1);
+}
 

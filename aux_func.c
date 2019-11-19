@@ -1,4 +1,5 @@
 #include "holberton.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 /**
@@ -48,4 +49,25 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	}
 	free(ptr);
 	return (my_realloc);
+}
+
+/**
+ *free_grid - creates an array
+ *@grid: positive integer
+ *@height: var typ char
+ *Return: Always
+ */
+void free_grid(int **grid)
+{
+int a;
+
+	if (grid == NULL)
+		{
+		return;
+		}
+	for (a = 0; grid; a++)
+	{
+		free(grid[a]);
+	}
+	free(grid);
 }
