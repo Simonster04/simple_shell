@@ -1,55 +1,38 @@
 #include "holberton.h"
 #include <stdlib.h>
 
-/**
- * free_grid - function that frees
- * @height: rows
- * @grid: bidimensional malloc
- *
- * Return: void
- */
-
-int (*psh_builtins(char *s))(int, int)
-{
-	builtins_t builtins[] = {
-			{"help", psh_help},
-			{"cd", psh_cd},
-			{"exit", psh_exit},
-			{NULL, NULL}
-	};
-	int i = 0;
-
-	while (i < 4)
-	{
-		if (builtins[i].builtin[0] == *s)
-		{
-			return (builtins[i].f);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-
 int psh_cd(char **args)
 {
 
-
+	if (args[1] == NULL)
+	{
+		perror("\"cd\" needs an argument");
+	}
+	else
+	{
+		if (chdir(args[1]) != 0)
+		{
+			perror("chdir fails");
+		}
+	}
+	return (1);
 }
 
 int psh_help(char **args)
 {
-	int i;
+	(void) args;
 
 	write(STDOUT_FILENO, "Tomás and Simón's Shell\n", 24);
-	write(STDOUT_FILENO, "Check the following commands:\n",30);
+	write(STDOUT_FILENO, "Those are our built-in commands:\n", 33);
+	write(STDOUT_FILENO, "> cd\n> help\n> exit\n", 19);
 
-	for (i = 0; i < )
+	return (1);
 }
 
 
 int psh_exit(char **args)
 {
+	(void) args;
 
-
+	return (0);
 }

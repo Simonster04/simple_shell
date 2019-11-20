@@ -25,11 +25,12 @@ char* psh_read_line(void)
 char **psh_tokenize(char *args)
 {
 	char *len = NULL;
-	int pos = 0, buff = PSH_BUFF_SIZE, buff2 = 0;
+	int pos = 0, buff = PSH_BUFF_SIZE, buff2 = PSH_BUFF_SIZE;
 	char **line = malloc(sizeof(char*) * buff);
 
 	if (line == NULL)
 	{
+		free(line);
 		return (NULL);
 	}
 
@@ -42,7 +43,7 @@ char **psh_tokenize(char *args)
 	}
 	if (pos >= buff)
 	{
-		buff2 = buff + PSH_BUFF_SIZE;
+		buff2 += PSH_BUFF_SIZE;
 		line = _realloc(line, sizeof(char*) * buff, sizeof(char*) * buff2);
 		if (line == NULL)
 		{
@@ -56,8 +57,30 @@ char **psh_tokenize(char *args)
 
 int psh_execution(char** line)
 {
+	int cont;
+char *builtin_cmd[] = {
+        "cd",
+        "help",
+        "exit"};
+
+int (*builtin_f[])(char **) = {
+        &psh_cd,
+        &psh_help,
+        &psh_exit};
+
+
 	if (line[0] == NULL)
+	{
 		return (1);
+	}
+
+	for (cont = 0; cont < 3; cont++)
+	{
+		if (_strcmp(line[0], builtin_cmd[cont]) == 0)
+		{
+			return ((*builtin_f[cont])(line));
+		}
+	}
 
 	return (psh_init(line));
 }
