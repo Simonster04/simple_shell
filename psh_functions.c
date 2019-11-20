@@ -50,8 +50,8 @@ char **psh_tokenize(char *args)
 
 	if (line == NULL)
 	{
-		free(args);
 		free(line);
+		free(&args);
 		return (NULL);
 	}
 
@@ -70,7 +70,7 @@ char **psh_tokenize(char *args)
 		if (line == NULL)
 		{
 			
-			free(args);
+			free(&args);
 			return (NULL);
 		}
 	}
