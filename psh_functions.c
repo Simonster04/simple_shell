@@ -16,11 +16,12 @@ char* psh_read_line(void)
 	size_t sz = 1024;
 	char *line = NULL;
 	int i;
-	ssize_t lineptr; 
+	ssize_t lineptr;
 
 	line = malloc(sizeof(char) * sz);
 	if (line == NULL)
 	{
+		free(line);
 		perror("malloc");
 		return (NULL);
 	}
@@ -38,7 +39,7 @@ char* psh_read_line(void)
 			line[i] = '\0';
 		}
 	}
-	free(line);
+
 	return (line);
 }
 
@@ -51,7 +52,6 @@ char **psh_tokenize(char *args)
 	if (line == NULL)
 	{
 		free(line);
-		free(&args);
 		return (NULL);
 	}
 
@@ -69,8 +69,7 @@ char **psh_tokenize(char *args)
 		line = _realloc(line, sizeof(char*) * buff, sizeof(char*) * buff2);
 		if (line == NULL)
 		{
-			
-			free(&args);
+			free(line);
 			return (NULL);
 		}
 	}
@@ -118,12 +117,14 @@ int psh_init(char **line)
 	{
 		if (execve(line[0], line, NULL) < 0)
 		{
+			free(line);
 			perror("Error with execve");
 		}
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
+		free(line);
 		perror("Error process failure");
 	}
 	else
