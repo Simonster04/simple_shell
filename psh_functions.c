@@ -16,9 +16,21 @@ char* psh_read_line(void)
 	size_t sz = 1024;
 	char *line = NULL;
 	int i;
+	ssize_t lineptr; 
 
 	line = malloc(sizeof(char) * sz);
-	getline(&line, &sz, stdin);
+	if (line == NULL)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+
+	lineptr = getline(&line, &sz, stdin);
+	if (lineptr == 0)
+	{
+		free(line);
+		return (NULL);
+	}
 	for (i = 0; line[i] != '\0'; i++)
 	{
 		if (line[i] == '\n')
@@ -26,6 +38,7 @@ char* psh_read_line(void)
 			line[i] = '\0';
 		}
 	}
+	free(line);
 	return (line);
 }
 
@@ -37,6 +50,7 @@ char **psh_tokenize(char *args)
 
 	if (line == NULL)
 	{
+		free(args);
 		free(line);
 		return (NULL);
 	}
@@ -55,7 +69,9 @@ char **psh_tokenize(char *args)
 		line = _realloc(line, sizeof(char*) * buff, sizeof(char*) * buff2);
 		if (line == NULL)
 		{
-		return (NULL);
+			
+			free(args);
+			return (NULL);
 		}
 	}
 
