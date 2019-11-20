@@ -15,10 +15,17 @@ char* psh_read_line(void)
 {
 	size_t sz = 1024;
 	char *line = NULL;
+	int i;
 
 	line = malloc(sizeof(char) * sz);
 	getline(&line, &sz, stdin);
-
+	for (i = 0; line[i] != '\0'; i++)
+	{
+		if (line[i] == '\n')
+		{
+			line[i] = '\0';
+		}
+	}
 	return (line);
 }
 
@@ -35,12 +42,13 @@ char **psh_tokenize(char *args)
 	}
 
 	len = strtok(args, " ");
-	while (len)
+	do
 	{
 		line[pos] = len;
 		pos++;
 		len = strtok(NULL, " ");
 	}
+	while (len);
 	if (pos >= buff)
 	{
 		buff2 += PSH_BUFF_SIZE;
@@ -59,15 +67,14 @@ int psh_execution(char** line)
 {
 	int cont;
 char *builtin_cmd[] = {
-        "cd",
-        "help",
-        "exit"};
+		"cd",
+		"help",
+		"exit"};
 
 int (*builtin_f[])(char **) = {
-        &psh_cd,
-        &psh_help,
-        &psh_exit};
-
+		&psh_cd,
+		&psh_help,
+		&psh_exit};
 
 	if (line[0] == NULL)
 	{
