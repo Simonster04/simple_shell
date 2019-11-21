@@ -1,6 +1,13 @@
 #include "holberton.h"
 #include <stdlib.h>
 
+/**
+ * psh_cd - Returns to the main repository
+ * @args: double pointer indicating the arrays of directions
+ *
+ * Return: 1 for succesfull operation
+ */
+
 int psh_cd(char **args)
 {
 
@@ -18,6 +25,13 @@ int psh_cd(char **args)
 	return (1);
 }
 
+/**
+ * psh_help - find more about the functions built within the shell
+ * @args: double pointer indicating the structure where commands are stored
+ *
+ * Return: 1 for succesfull operation
+ */
+
 int psh_help(char **args)
 {
 	(void) args;
@@ -29,7 +43,12 @@ int psh_help(char **args)
 	return (1);
 }
 
-
+/**
+ * psh_exit - Exits the simple shell
+ * @args: double pointer indicating the structure where commands are stored
+ *
+ * Return: 0 on success
+ */
 int psh_exit(char **args)
 {
 	(void) args;
