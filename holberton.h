@@ -19,8 +19,7 @@ int psh_cd(char **args);
 int psh_help(char **args);
 int psh_exit(char **args);
 
-
-char* psh_read_line(void);
+char *psh_read_line(void);
 void psh_loop(void);
 char **psh_tokenize(char *len);
 int psh_execution(char **line);

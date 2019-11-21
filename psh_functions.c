@@ -8,10 +8,15 @@
 
 #define PSH_BUFF_SIZE 64
 
-
 int psh_init(char **line);
 
-char* psh_read_line(void)
+/**
+ * psh_read_line - reads a line from the standar inputa console
+ *
+ * Return: pointer to the allocated string
+ */
+
+char *psh_read_line(void)
 {
 	size_t sz = 1024;
 	char *line = NULL;
@@ -43,11 +48,17 @@ char* psh_read_line(void)
 	return (line);
 }
 
+/**
+ * psh_tokenize - splits a string into different argumnets
+ * @args: string with the arguments to be tokenize
+ *
+ * Return: double pointer of the arrays of strings
+ */
 char **psh_tokenize(char *args)
 {
 	char *len = NULL;
 	int pos = 0, buff = PSH_BUFF_SIZE, buff2 = PSH_BUFF_SIZE;
-	char **line = malloc(sizeof(char*) * buff);
+	char **line = malloc(sizeof(char *) * buff);
 
 	if (line == NULL)
 	{
@@ -56,17 +67,15 @@ char **psh_tokenize(char *args)
 	}
 
 	len = strtok(args, " ");
-	do
-	{
+	do {
 		line[pos] = len;
 		pos++;
 		len = strtok(NULL, " ");
-	}
-	while (len);
+	} while (len);
 	if (pos >= buff)
 	{
 		buff2 += PSH_BUFF_SIZE;
-		line = _realloc(line, sizeof(char*) * buff, sizeof(char*) * buff2);
+		line = _realloc(line, sizeof(char *) * buff, sizeof(char *) * buff2);
 		if (line == NULL)
 		{
 			free(line);
@@ -78,7 +87,13 @@ char **psh_tokenize(char *args)
 	return (line);
 }
 
-int psh_execution(char** line)
+/**
+ * psh_execution - calls the builtin functions the simple shell has
+ * @line: the commands it will execute
+ *
+ * Return: initializes the pid function process
+ */
+int psh_execution(char **line)
 {
 	int cont;
 char *builtin_cmd[] = {
@@ -107,6 +122,12 @@ int (*builtin_f[])(char **) = {
 	return (psh_init(line));
 }
 
+/**
+ * psh_init - initialize a ppid and pid process
+ * @line: the commands it will execute
+ *
+ * Return: 1 if the process worked correctly
+ */
 int psh_init(char **line)
 {
 	pid_t pid;
@@ -131,8 +152,7 @@ int psh_init(char **line)
 	{
 		do {
 		waitpid(pid, &status_w, WUNTRACED);
-		}
-		while ((WIFEXITED(status_w) == 0) && (WIFSIGNALED(status_w) == 0));
+		} while ((WIFEXITED(status_w) == 0) && (WIFSIGNALED(status_w) == 0));
 	}
 	return (1);
 }

@@ -52,9 +52,9 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- *free_grid - creates an array
- *@grid: positive integer
- *@height: var typ char
+ *free_grid - frees an array of pointers
+ *@grid: array of pointers
+ *
  *Return: Always
  */
 void free_grid(int **grid)
