@@ -1,5 +1,8 @@
 #include "holberton.h"
 #include <stdlib.h>
+#include <unistd.h>
+
+extern char **environ;
 
 /**
  * psh_cd - Returns to the main repository
@@ -54,4 +57,17 @@ int psh_exit(char **args)
 	(void) args;
 	/* necesita un free??*/
 	return (0);
+}
+
+int psh_env(char **args)
+{
+	int i;
+	(void) args;
+
+	for (i = 0; environ[i]; i++)
+	{
+		write(STDOUT_FILENO, environ[i], sizeof(environ[i]) * sizeof(char *));
+		write(STDOUT_FILENO, "\n", 1);
+	}
+	return (1);
 }

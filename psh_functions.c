@@ -108,20 +108,21 @@ int psh_execution(char **line)
 char *builtin_cmd[] = {
 		"cd",
 		"help",
-		"exit"};
+		"exit",
+		"env"};
 
 int (*builtin_f[])(char **) = {
 		&psh_cd,
 		&psh_help,
-		&psh_exit};
+		&psh_exit,
+		&psh_env};
 
 	if (line[0] == NULL)
 	{
-	/*posible free del doble puntero line*/
 		return (1);
 	}
 
-	for (cont = 0; cont < 3; cont++)
+	for (cont = 0; cont < 4; cont++)
 	{
 		if (_strcmp(line[0], builtin_cmd[cont]) == 0)
 		{
@@ -147,7 +148,11 @@ int psh_init(char **line)
 	if (pid == 0)
 	{
 		if (execve(line[0], line, NULL) < 0)
-		{
+		{/*
+			for (i = 0; line; i++)
+			{
+				free(line[i]);
+			}*/
 			free(line);
 			perror("Error with execve");
 		}
