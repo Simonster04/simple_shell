@@ -19,6 +19,7 @@ void psh_loop(void)
 	while (exec)
 	{
 		write(STDOUT_FILENO, "$ ", 2);
+		
 		len = psh_read_line();
 		comms = psh_tokenize(len);
 		exec = psh_execution(comms);

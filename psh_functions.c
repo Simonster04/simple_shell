@@ -172,6 +172,7 @@ int psh_init(char **line)
 		do {
 		waitpid(pid, &status_w, WUNTRACED);
 		} while ((WIFEXITED(status_w) == 0) && (WIFSIGNALED(status_w) == 0));
+		free(line);
 	}
 	return (1);
 }

@@ -61,13 +61,16 @@ int psh_exit(char **args)
 
 int psh_env(char **args)
 {
-	int i;
+	int i, j;
 	(void) args;
 
 	for (i = 0; environ[i]; i++)
 	{
-		write(STDOUT_FILENO, environ[i], sizeof(environ[i]) * sizeof(char *));
-		write(STDOUT_FILENO, "\n", 1);
+		for (j = 0; environ[i][j]; j++)
+		{
+			_putchar(environ[i][j]);
+		}
+		_putchar('\n');
 	}
 	return (1);
 }
