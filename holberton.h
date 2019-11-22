@@ -18,7 +18,7 @@ typedef struct builtins
 int psh_cd(char **args);
 int psh_help(char **args);
 int psh_exit(char **args);
-
+int _putchar(char c);
 char *psh_read_line(void);
 void psh_loop(void);
 char **psh_tokenize(char *len);
