@@ -142,17 +142,13 @@ int (*builtin_f[])(char **) = {
 int psh_init(char **line)
 {
 	pid_t pid;
-	int status_w = 0, i;
+	int status_w = 0;
 
 	pid = fork();
 	if (pid == 0)
 	{
 		if (execve(line[0], line, NULL) < 0)
-		{/*
-			for (i = 0; line; i++)
-			{
-				free(line[i]);
-			}*/
+		{
 			free(line);
 			perror("Error with execve");
 		}
@@ -160,10 +156,6 @@ int psh_init(char **line)
 	}
 	else if (pid < 0)
 	{
-		for (i = 0; line; i++)
-		{
-			free(line[i]);
-		}
 		free(line);
 		perror("Error process failure");
 	}
@@ -172,7 +164,6 @@ int psh_init(char **line)
 		do {
 		waitpid(pid, &status_w, WUNTRACED);
 		} while ((WIFEXITED(status_w) == 0) && (WIFSIGNALED(status_w) == 0));
-		free(line);
 	}
 	return (1);
 }
