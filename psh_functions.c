@@ -28,12 +28,19 @@ char *psh_read_line(void)
 	{
 		free(line);
 		perror("malloc");
+		/*sera q se utiliza exit mejor*/
 		return (NULL);
 	}
 
 	lineptr = getline(&line, &sz, stdin);
 	if (lineptr == 0)
 	{
+/*
+		while (line)
+		{
+			free(&line[pos]);
+			pos++;
+		}*/
 		free(line);
 		return (NULL);
 	}
@@ -44,7 +51,9 @@ char *psh_read_line(void)
 			line[i] = '\0';
 		}
 	}
-
+/*
+	free(line);
+*/
 	return (line);
 }
 
@@ -108,6 +117,7 @@ int (*builtin_f[])(char **) = {
 
 	if (line[0] == NULL)
 	{
+	/*posible free del doble puntero line*/
 		return (1);
 	}
 
@@ -131,7 +141,7 @@ int (*builtin_f[])(char **) = {
 int psh_init(char **line)
 {
 	pid_t pid;
-	int status_w = 0;
+	int status_w = 0, i;
 
 	pid = fork();
 	if (pid == 0)
@@ -145,6 +155,10 @@ int psh_init(char **line)
 	}
 	else if (pid < 0)
 	{
+		for (i = 0; line; i++)
+		{
+			free(line[i]);
+		}
 		free(line);
 		perror("Error process failure");
 	}

@@ -52,6 +52,6 @@ int psh_help(char **args)
 int psh_exit(char **args)
 {
 	(void) args;
-
+	/* necesita un free??*/
 	return (0);
 }
