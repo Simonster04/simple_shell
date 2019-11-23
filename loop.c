@@ -16,13 +16,11 @@ void psh_loop(int ac, char **av, char **env)
 	char *len = NULL, *delim = " \n";
 	int exec = 1;
 	list_t *head = NULL;
-	char *get_path = psh_getenv("PATH", env);
+	char *get_path;
 
+	get_path = psh_getenv("PATH", env);
 	token = psh_tokenize(get_path, ":");
 	make_nodes(token, &head);
-
-
-
 
 	while (exec)
 	{
@@ -30,6 +28,7 @@ void psh_loop(int ac, char **av, char **env)
 		
 		len = psh_read_line();
 		comms = psh_tokenize(len, delim);
+		comms[0] = psh_concatenate(&head, 
 		exec = psh_execution(comms);
 /*
 		while (comms[i])

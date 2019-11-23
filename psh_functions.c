@@ -33,7 +33,7 @@ char *psh_read_line(void)
 	}
 
 	lineptr = getline(&line, &sz, stdin);
-	if (lineptr == 0)
+	if (lineptr == EOF)
 	{
 /*
 		while (line)
@@ -42,7 +42,7 @@ char *psh_read_line(void)
 			pos++;
 		}*/
 		free(line);
-		return (NULL);
+		exit(EXIT_SUCCESS);
 	}
 	for (i = 0; line[i] != '\0'; i++)
 	{

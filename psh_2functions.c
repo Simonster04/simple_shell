@@ -4,8 +4,12 @@
 void make_nodes(char **get_path, list_t **head)
 {
 	int i = 0;
-	list_t
 
 	while (get_path[i])
 	{
-		add_node(
+		add_node(head, getpath[i])
+		i++;
+	}
+}
+
+char *psh_concatenate(list_t **head, char *args)
