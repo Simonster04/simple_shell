@@ -63,7 +63,7 @@ char *psh_read_line(void)
  *
  * Return: double pointer of the arrays of strings
  */
-char **psh_tokenize(char *args)
+char **psh_tokenize(char *args, char *delim)
 {
 	char *len = NULL;
 	int pos = 0, buff = PSH_BUFF_SIZE, buff2 = PSH_BUFF_SIZE;
@@ -75,11 +75,11 @@ char **psh_tokenize(char *args)
 		return (NULL);
 	}
 
-	len = strtok(args, " ");
+	len = strtok(args, delim);
 	do {
 		line[pos] = len;
 		pos++;
-		len = strtok(NULL, " ");
+		len = strtok(NULL, delim);
 	} while (len);
 	if (pos >= buff)
 	{
@@ -166,5 +166,27 @@ int psh_init(char **line)
 		} while ((WIFEXITED(status_w) == 0) && (WIFSIGNALED(status_w) == 0));
 	}
 	return (1);
+}
+
+char *psh_getenv(const char *name, char **env)
+{
+	int i = 0;
+	char *token = NULL;
+
+	while (env[i])
+	{
+		token = strtok(env[i], "=");
+		if (_strcmp(token, name) == 0);
+		{
+			token = strtok(NULL, "=");
+			return (token);
+		}
+		i++;
+	}
+	if (name == NULL)
+	{
+		perror("NOT FOUND");
+	}
+	return (NULL);
 }
 
