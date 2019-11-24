@@ -1,5 +1,8 @@
 #include "holberton.h"
 #include <stdlib.h>
+#include <unistd.h>
+
+extern char **environ;
 
 /**
  * psh_cd - Returns to the main repository
@@ -68,6 +71,22 @@ int psh_help(char **args)
 int psh_exit(char **args)
 {
 	(void) args;
-
+	/* necesita un free??*/
 	return (0);
+}
+
+int psh_env(char **args)
+{
+	int i, j;
+	(void) args;
+
+	for (i = 0; environ[i]; i++)
+	{
+		for (j = 0; environ[i][j]; j++)
+		{
+			_putchar(environ[i][j]);
+		}
+		_putchar('\n');
+	}
+	return (1);
 }
