@@ -44,6 +44,22 @@ int psh_help(char **args)
 }
 
 /**
+ * psh_help - find more about the functions built within the shell
+ * @args: double pointer indicating the structure where commands are stored
+ *
+ * Return: 1 for succesfull operation
+ */
+
+int psh_help(char **args)
+{
+	(void) args;
+
+	write(STDOUT_FILENO, "USER=" getenv("USER"), 13);
+
+	return (1);
+}
+
+/**
  * psh_exit - Exits the simple shell
  * @args: double pointer indicating the structure where commands are stored
  *

@@ -66,11 +66,11 @@ char **psh_tokenize(char *args)
 		return (NULL);
 	}
 
-	len = strtok(args, " ");
+	len = strtok(args, ": ");
 	do {
 		line[pos] = len;
 		pos++;
-		len = strtok(NULL, " ");
+		len = strtok(NULL, ": ");
 	} while (len);
 	if (pos >= buff)
 	{
