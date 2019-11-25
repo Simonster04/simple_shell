@@ -101,33 +101,33 @@ while ((s1[i] != '\0' && s2[i] != '\0') && s1[i] == s2[i])
 	}
 }
 
+#include "holberton.h"
+
 /**
-**add_node - adds a new node to thelist
-*@head: list name
-*@str: string to add
-*Return: On success 1.
-*/
+ * _strncat - concatenates two strings, n bytes
+ * @src: source array
+ * @dest: destination array
+ * @n: amount of bytes
+ * Return: 0.
+ */
 
-list_t *add_node(list_t **head, const char *str)
+char *_strncat(char *dest, char *src, int n)
 {
-	int count = 0;
-	list_t *new;
 
-	new = malloc(sizeof(list_t));
-	if (new == NULL)
-		return (NULL);
+int i;
+int c = 0;
 
-	if (str == NULL)
-		return (NULL);
-
-	new->str = strdup(str);
-
-	while (str[count])
+	while (dest[c] != '\0')
 	{
-		count++;
+		c++;
 	}
-	new->len = count;
-	new->next = *head;
-	*head = new;
-	return (new);
+
+	for (i = 0; src[i] != '\0' && i < n; i++)
+	{
+		dest[c + i] = src[i];
+	}
+
+	dest[c + i] = '\0';
+
+	return (dest);
 }

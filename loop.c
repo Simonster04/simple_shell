@@ -10,33 +10,41 @@
  * Return: Doesn't return nothing
  */
 
-void psh_loop(int ac, char **av, char **env)
+void psh_loop(char **envp)
 {
-	char **comms, **token;
-	char *len = NULL, *delim = " \n";
-	int exec = 1;
-	list_t *head = NULL;
-	char *get_path;
-
-	get_path = psh_getenv("PATH", env);
-	token = psh_tokenize(get_path, ":");
-	make_nodes(token, &head);
+	char **comms, **path_command;
+	char *len = NULL, *path = NULL;
+	int exec = 1, i, j, lenu;
+	char *username = "USER=";
 
 	while (exec)
 	{
-		write(STDOUT_FILENO, "$ ", 2);
-		
-		len = psh_read_line();
-		comms = psh_tokenize(len, delim);
-		comms[0] = psh_concatenate(&head, 
-		exec = psh_execution(comms);
-/*
-		while (comms[i])
+		if (isatty(STDIN_FILENO))
 		{
-			free(comms[i]);
-			i++;
+			for (i = 0; envp[i]; i++)
+			{
+				for (j = 0; j < 5; j++)
+                       		{
+					if (username[j] != envp[i][j])
+					{
+						break;
+					}
+					while(envp[i][j + 5])
+					{
+						_putchar(envp[i][j + 5]);
+						j++;
+					}
+				}
+			}
+
+
+			write(STDOUT_FILENO, "$ ", 2);
 		}
-*/
+
+		len = psh_read_line();
+		comms = psh_tokenize(len);
+		exec = psh_execution(comms, envp);
+
 		free(len);
 		free(comms);
 	}

@@ -1,0 +1,17 @@
+#include "holberton.h"
+#include <stdio.h>
+
+char **concat(char *len, char *path)
+{
+	char **newpath = psh_tokenize(path);
+	char **line = psh_tokenize(len);
+	int i;
+
+	for (i = 0; newpath; i++)
+	{
+		newpath[i] = _strncat(newpath[i], "/", 1);
+		printf("%s\n", newpath[i]);
+	}
+
+	return (newpath);
+}
