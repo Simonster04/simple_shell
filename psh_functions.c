@@ -7,8 +7,9 @@
 #include <unistd.h>
 
 #define PSH_BUFF_SIZE 64
+extern char **environ;
 
-int psh_init(char **line, char **envp);
+int psh_init(char **line);
 
 /**
  * psh_read_line - reads a line from the standar inputa console
@@ -28,32 +29,22 @@ char *psh_read_line(void)
 	{
 		free(line);
 		perror("malloc");
-		/*sera q se utiliza exit mejor*/
 		return (NULL);
 	}
 
 	lineptr = getline(&line, &sz, stdin);
-	if (lineptr == EOF)
+	if (lineptr == 0)
 	{
-/*
-		while (line)
-		{
-			free(&line[pos]);
-			pos++;
-		}*/
 		free(line);
 		return (NULL);
 	}
-	for (i = 0; line[i] != '\0'; i++)
+	for (i = 0; line[i]; i++)
 	{
 		if (line[i] == '\n')
 		{
 			line[i] = '\0';
 		}
 	}
-/*
-	free(line);
-*/
 	return (line);
 }
 
@@ -75,12 +66,13 @@ char **psh_tokenize(char *args)
 		return (NULL);
 	}
 
-	len = strtok(args, " \t\n\r");
-	do {
+	len = strtok(args, "\t\n\r ");
+	while (len)
+	{
 		line[pos] = len;
 		pos++;
-		len = strtok(NULL, " \t\n\r");
-	} while (len);
+		len = strtok(NULL, "\t\n\r ");
+	}
 	if (pos >= buff)
 	{
 		buff2 += PSH_BUFF_SIZE;
@@ -99,19 +91,21 @@ char **psh_tokenize(char *args)
 /**
  * psh_execution - calls the builtin functions the simple shell has
  * @line: the commands it will execute
+
  *
  * Return: initializes the pid function process
  */
-int psh_execution(char **line, char **envp)
+
+int psh_execution(char **line)
 {
 	int cont;
-char *builtin_cmd[] = {
+	char *builtin_cmd[] = {
 		"cd",
 		"help",
 		"exit",
 		"env"};
 
-int (*builtin_f[])(char **) = {
+	int (*builtin_f[])(char **) = {
 		&psh_cd,
 		&psh_help,
 		&psh_exit,
@@ -126,12 +120,11 @@ int (*builtin_f[])(char **) = {
 	{
 		if (_strcmp(line[0], builtin_cmd[cont]) == 0)
 		{
-			(void)envp;
 			return ((*builtin_f[cont])(line));
 		}
 	}
 
-	return (psh_init(line, envp));
+	return (psh_init(line));
 }
 
 /**
@@ -141,38 +134,34 @@ int (*builtin_f[])(char **) = {
  * Return: 1 if the process worked correctly
  */
 
-int psh_init(char **line, char **envp)
+int psh_init(char **line)
 {
 	pid_t pid;
-	char **dir_com = NULL;
-	char *tmp = NULL;
+	char **dir_com = NULL, *tmp = NULL;
+	char *command = NULL;
 	int status_w = 0, i;
 
-	if (line[0][0] != '/')
-	{
-		dir_com = complete_command(envp);
-
-		for (i = 0; dir_com[i]; i++)
-		{
-			_strcat(dir_com[i], line[0]);
-
-			if (access(dir_com[i], X_OK) == 0)
-			{
-				tmp = dir_com[i];
-				break;
-			}
-			else if (dir_com[i + 1] == NULL)
-			{
-				tmp = line[0];
-				break;
-			}
-		}
-	}
+	dir_com = add_slash();
+	command = access_check(dir_com, line, command);
 
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(tmp, line, NULL) < 0)
+		for (i = 0; line[0][i]; i++)
+        	{
+			if (line[0][i] == '/')
+                	{
+				free_grid(dir_com);
+				if (execve(line[0], line, environ) == -1)
+				{
+					perror("Command");
+					free_grid(line);
+					exit(0);
+				}
+				free(line);
+			}
+		}
+		if (execve(command, line, environ) < 0)
 		{
 			free(line);
 			perror("Error with execve");

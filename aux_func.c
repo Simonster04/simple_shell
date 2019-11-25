@@ -45,7 +45,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	}
 	for (loop = 0; loop < final_size; loop++)
 	{
-	my_realloc[loop] = ((char *)ptr)[loop];
+		my_realloc[loop] = ((char *)ptr)[loop];
 	}
 	free(ptr);
 	return (my_realloc);
@@ -57,14 +57,14 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
  *
  *Return: Always
  */
-void free_grid(int **grid)
+void free_grid(char **grid)
 {
-int a;
+	int a;
 
 	if (grid == NULL)
-		{
+	{
 		return;
-		}
+	}
 	for (a = 0; grid; a++)
 	{
 		free(grid[a]);
@@ -83,51 +83,69 @@ int a;
 int _strcmp(char *s1, char *s2)
 {
 
-int i = 0;
+	int i = 0;
 
-while ((s1[i] != '\0' && s2[i] != '\0') && s1[i] == s2[i])
+	while ((s1[i] && s2[i]) && s1[i] == s2[i])
 	{
-	i++;
+		i++;
 	}
 
 	if (s1[i] == s2[i])
 	{
-	return (0);
+		return (0);
 	}
-
 	else
 	{
-	return (s1[i] - s2[i]);
+		return (s1[i] - s2[i]);
 	}
 }
 
-#include "holberton.h"
+/**
+ * _strcpy - copy the string pointed to by src to the buffer pointed to by dest
+ * @src: char pointer
+ * @dest: char pointer
+ * Return: No return.
+ */
+
+char *_strcpy(char *dest, char *src)
+{
+	int j = 0;
+	int x;
+
+	while (src[j])
+	{
+		j++;
+	}
+	for (x = 0; x <= j; x++)
+	{
+		dest[x] = src[x];
+	}
+	dest[x + 1] = '\0';
+	return (dest);
+}
 
 /**
- * _strncat - concatenates two strings, n bytes
+ * _strcat - returns the length of a string
  * @src: source array
  * @dest: destination array
- * @n: amount of bytes
  * Return: 0.
  */
 
-char *_strncat(char *dest, char *src, int n)
+char *_strcat(char *dest, char *src)
 {
+	int i;
+	int c = 0;
 
-int i;
-int c = 0;
-
-	while (dest[c] != '\0')
+	while (dest[c])
 	{
 		c++;
 	}
 
-	for (i = 0; src[i] != '\0' && i < n; i++)
+	for (i = 0; src[i]; i++)
 	{
 		dest[c + i] = src[i];
 	}
 
 	dest[c + i] = '\0';
-
 	return (dest);
 }

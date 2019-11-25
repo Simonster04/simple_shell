@@ -1,79 +1,128 @@
 #include "holberton.h"
 
-char **getpath(char **envp)
+extern char **environ;
+
+/**
+ * getthepath - splits the path in different tokens
+ *
+ * Return: a list of directories
+ */
+
+char **getthepath()
 {
-	char *path = "PATH=";
-	char *aux = NULL, *len;
-	char **path_split = NULL;
 	int i, j;
+	char *path = NULL, *token, *name = "PATH=";
+	char **splitpath = NULL;
 
-	aux = malloc(1024 * sizeof(char));
-        if (aux == NULL)
-        {
-                perror("allocation (aux)");
-        }
-
-	path_split = malloc(1024 * sizeof(char *));
-	if (path_split == NULL)
+	path = malloc(1024 * sizeof(char));
+	if (path == NULL)
 	{
-		perror("allocation (paths)");
+		perror("malloc str");
 	}
-
-	for (i = 0; envp[i]; i++)
+	splitpath = malloc(1024 * sizeof(char *));
+	if (splitpath == NULL)
 	{
-		for (j = 0; j < 5; j++)
+		perror("Directories allocation");
+	}
+	for (i = 0; environ[i]; i++)
+	{
+		if (_strncmp(environ[i], name, 5) == 0)
 		{
-			if (path[j] != envp[i][j])
+			_strcpy(path, environ[i]);
+			token =	strtok(path, ":");
+			for (j = 0; token; j++)
 			{
-				break;
+				splitpath[j] = token;
+				token = strtok(NULL, ":");
 			}
-
-			if (j == 5)
-			{
-				break;
-			}
+			splitpath[j] = NULL;
+			return (splitpath);
 		}
 	}
-	_strcpy(aux, envp[i]);
-
-	len = strtok(aux, ":");
-	for (j = 0; len; j++)
-	{
-		path_split[j] = len;
-		len = strtok(NULL, ":");
-	}
-	path_split[j] = NULL;
-
-	free(aux);
-	return (path_split);
+	perror("The path was not found");
+	free(path);
+	free(splitpath);
+	return (0);
 }
 
-char **complete_command(char **envp)
+/**
+ * add_slash - add an slash at the end of each directory
+ *
+ * Return: a list of directories with slash at the end
+ */
+
+char **add_slash(void)
 {
 	int i;
-	char *path;
-	char **ptr, **slash_command = NULL;
+	char *path = NULL;
+	char **splitpath;
+	char **dir_com = NULL;
 
-	ptr = getpath(envp);
-	path = malloc(sizeof(char) * 1024);
+	splitpath = getthepath();
+	dir_com = _calloc(1024, sizeof(char));
+	if (dir_com == NULL)
+	{return (NULL); }
+	path = malloc(sizeof(char) * 500);
 	if (path == NULL)
-		{return (NULL); }
-	slash_command = malloc(1024 * sizeof(char *));
-	if (slash_command == NULL)
-		{return (NULL); }
-
-	i = 0;
-	while (ptr[i] != NULL)
+	{return (NULL); }
+	for (i = 0; splitpath[i]; i++)
 	{
-		_strncpy(path, ptr[i], sizeof(ptr[i]));
+		_strcpy(path, splitpath[i]);
 		_strcat(path, "/");
-		slash_command[i] = malloc(sizeof(char) * 1024);
-		_strcpy(slash_command[i], path);
-		i++;
+		dir_com[i] = malloc(sizeof(char) * 1024);
+		_strcpy(dir_com[i], path);
 	}
-
-	free(ptr[0]);
-	free(ptr);
 	free(path);
-	return (slash_command);
+	free(splitpath);
+	return (dir_com);
+}
+
+/**
+ * access_check - determines whether a file can be accessed
+ * @splitpath: path splited through doubledot
+ * @line: tokens took from stdin
+ * @command: space for the command
+ *
+ * Return: the command with the correct path
+ */
+
+char *access_check(char **splitpath, char **line, char *command)
+{
+	int i;
+
+	for (i = 0; splitpath[i]; i++)
+	{
+		_strcat(splitpath[i], line[0]);
+		if (access(splitpath[i], X_OK) > -1)
+		{
+			command = splitpath[i];
+			return (command);
+		}
+	}
+	return (NULL);
+}
+
+/**
+ * _strncmp - compares n bytes of 2 strings
+ * @s1: first string
+ * @s2: second string
+ * @n: number of chars to be compared
+ *
+ * Return: 0
+ */
+
+int _strncmp(char *s1, const char *s2, int n)
+{
+	int i = 0, dif = 0;
+
+	while (i < n)
+	{
+		if (s1[i] != s2[i])
+		{
+			dif = s1[i] - s2[i];
+			break;
+		}
+	i++;
+	}
+	return (dif);
 }

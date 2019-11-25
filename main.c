@@ -10,13 +10,14 @@
 int main(int ac, char **av, char **envp)
 {
 	write(STDOUT_FILENO, "\n\n\n**************************************\n", 42);
+	write(STDOUT_FILENO, "**************************************\n", 39);
 	write(STDOUT_FILENO, "\nWelcome to the best shell in the world\n", 40);
+	write(STDOUT_FILENO, "**************************************\n", 39);
 	write(STDOUT_FILENO, "\n**************************************\n\n\n", 42);
 
 	psh_loop(envp);
-	(void) av;
-	ac = 0;
-
-	return (ac);
+	(void)ac;
+	(void)av;
+	return (0);
 }
 
