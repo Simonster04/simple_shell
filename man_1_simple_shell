@@ -1,1 +1,78 @@
-man file
+.TH _printf  "27 11 2019" "version 1.0"
+.SH NAME
+simple_shell - Executable command program
+.SH SYNOPSIS
+.B #include "holberton.h"
+	#include <stdlib.h>
+	#include <stdarg.h>
+	#include <unistd.h>
+	#include <string.h>
+
+.B ./hsh [COMMANDS]
+
+.SH DESCRIPTION
+.B the simple shell is a command processor that run in a text window, allowing the user to type commands. The commmands entered by the console will be executed in the program if the commands exit, returning a a succesfull process or a printed message to the user indicating if the process was successfull or it failed.
+
+.SH ARGUMENTS
+If hsh is invoked, $ is set to the name of the file, and the positional parameters are set to the remaining arguments. hsh reads and executes commands from this file, then exits. hsh exit status is the exit status of the last command executed in the script. If no commands are executed, the exit status is 0. An attempt is first made to open the file in the current directory, and, if no file is found, then the shell searches the directories in PATH for the script. 
+
+.SH INVOCATION
+To start the shell its necessary to execute the hsh program. When the shell is invoked as an interactive
+
+.B FUNCTION DEFINITIONS
+
+.B SHELL VARIABLES 
+
+.B FORMAT COMMANDS basic shell commands:
+
+env	Prints the enviroment variables present in the shell.
+
+cd	Changes the working directory or returns to the first dir.
+
+help	Prints the commands listed in the simple shell.
+
+pwd	Prints the actual PATH the user is on.
+
+ls	Prints the files present in the current working directory.
+
+exit	Exits properly from the simple shell.
+
+
+.SH RETURN VALUE
+Upon successful return, _printf() will return the number of characters printed excluding the null byte presented at the end. If an output error is encountered, a negative value is returned.
+
+.SH CONVERSION SPECIFIER
+A character that specifies the type of conversion to be applied. The conversion specifier and their meanings are:
+
+.TP
+\fBd\fR, \fBi\fR
+The int argument is converted to signed decimal notation. The precision, if any, gives the minimum number of digits that must appear.
+
+.TP
+\fBc\fR
+If no l modifier is present, the int argument is converted to an unsigned char, and the resulting character is written.
+.TP
+
+\fBs\fR
+If no l modifier is present: The const char * argument is expected to be a pointer to an array of character type (pointer to a string). Characters from the array are written up to (but not including) a terminating null byte ('\0').
+
+.TP
+\fB%\fR
+A '%' is written. No argument is converted. The complete conversion specification is '%%'.
+
+.SH SEE ALSO
+.B printf(3)
+
+.SH BUGS
+None found at the moment.
+
+.SH EXAMPLE
+To print the string "Print a string":
+
+#include "holberton.h"
+
+ _printf ("%s", "Print a string");
+
+
+.SH AUTHORS
+Jonatan Ricardo Mazo (1150@holbertonschool.com), Tomás Mejía (1223@holbertonschool.com).s 1.0"
