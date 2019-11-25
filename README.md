@@ -1,7 +1,7 @@
 # Simple Shell
 ### Medellin 2019
-### Simon Parra
-### Tomas Mejia
+### Simón Parra
+### Tomás Mejía
 
 ## What is simple shell
 *our version of simple shell using in C programming languages, building a sketch about of LINUX shell.
@@ -39,6 +39,20 @@ Press enter
 
 ### C language standard functions used
  - write.
+ - access 
+ - chdir 
+ - execve
+ - exit
+ - fork
+ - free
+ - getline
+ - isatty
+ - malloc
+ - perror
+ - signal
+ - strtok
+ - wait
+
  
 ### Own functions used
  - _realloc

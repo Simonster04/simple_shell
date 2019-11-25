@@ -1,4 +1,4 @@
-.TH _printf  "27 11 2019" "version 1.0"
+.TH Simple Shell  "27 11 2019" "version 1.0"
 .SH NAME
 simple_shell - Executable command program
 .SH SYNOPSIS
@@ -17,7 +17,7 @@ simple_shell - Executable command program
 If hsh is invoked, $ is set to the name of the file, and the positional parameters are set to the remaining arguments. hsh reads and executes commands from this file, then exits. hsh exit status is the exit status of the last command executed in the script. If no commands are executed, the exit status is 0. An attempt is first made to open the file in the current directory, and, if no file is found, then the shell searches the directories in PATH for the script. 
 
 .SH INVOCATION
-To start the shell its necessary to execute the hsh program. When the shell is invoked as an interactive
+To start the shell its necessary to execute the hsh program. When the shell is invoked as an interactive shell where the system logs in and open a terminal to type and execute commands. Also it can ve invoked as non-interactive, simply by teneting to the system, the shell eexecutes the command and exits automatically. 
 
 .B FUNCTION DEFINITIONS
 
@@ -39,7 +39,7 @@ exit	Exits properly from the simple shell.
 
 
 .SH RETURN VALUE
-Upon successful return, _printf() will return the number of characters printed excluding the null byte presented at the end. If an output error is encountered, a negative value is returned.
+Upon successful return, the simple shell will return the result of the executed command. If an output error is encountered, a display message will indicate what went wrong in the execution of the process.
 
 .SH CONVERSION SPECIFIER
 A character that specifies the type of conversion to be applied. The conversion specifier and their meanings are:
@@ -75,4 +75,4 @@ To print the string "Print a string":
 
 
 .SH AUTHORS
-Jonatan Ricardo Mazo (1150@holbertonschool.com), Tomás Mejía (1223@holbertonschool.com).s 1.0"
+Simón Parra (1248@holbertonschool.com), Tomás Mejía (1223@holbertonschool.com).s 1.0"
