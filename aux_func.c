@@ -59,17 +59,17 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
  */
 void free_grid(char **grid)
 {
-	int a;
+	char **temp = grid;
 
-	if (grid == NULL)
+	if (!grid)
 	{
 		return;
 	}
-	for (a = 0; grid; a++)
+	while (grid)
 	{
-		free(grid[a]);
+		free(*grid++);
 	}
-	free(grid);
+	free(temp);
 }
 
 /**

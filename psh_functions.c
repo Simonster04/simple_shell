@@ -27,7 +27,7 @@ char *psh_read_line(void)
 	line = malloc(sizeof(char) * sz);
 	if (line == NULL)
 	{
-		free(line);
+/*		free(line);*/
 		perror("malloc");
 		return (NULL);
 	}
@@ -37,6 +37,11 @@ char *psh_read_line(void)
 	{
 		free(line);
 		return (NULL);
+	}
+	if (lineptr == -1)
+	{
+		free(line);
+		exit(0);
 	}
 	for (i = 0; line[i]; i++)
 	{
@@ -58,11 +63,12 @@ char **psh_tokenize(char *args)
 {
 	char *len = NULL;
 	int pos = 0, buff = PSH_BUFF_SIZE, buff2 = PSH_BUFF_SIZE;
-	char **line = malloc(sizeof(char *) * buff);
+	char **line;
 
+	line = malloc(sizeof(char *) * buff);
 	if (line == NULL)
 	{
-		free(line);
+/*		free(line);*/
 		return (NULL);
 	}
 
@@ -137,7 +143,7 @@ int psh_execution(char **line)
 int psh_init(char **line)
 {
 	pid_t pid;
-	char **dir_com = NULL, *tmp = NULL;
+	char **dir_com = NULL;
 	char *command = NULL;
 	int status_w = 0, i;
 
@@ -148,22 +154,22 @@ int psh_init(char **line)
 	if (pid == 0)
 	{
 		for (i = 0; line[0][i]; i++)
-        	{
+		{
 			if (line[0][i] == '/')
-                	{
-				free_grid(dir_com);
+			{
+/*				free_grid(dir_com);*/
 				if (execve(line[0], line, environ) == -1)
 				{
 					perror("Command");
-					free_grid(line);
+/*					free_grid(line);*/
 					exit(0);
 				}
-				free(line);
+/*				free(line);*/
 			}
 		}
 		if (execve(command, line, environ) < 0)
 		{
-			free(line);
+/*			free(line);*/
 			perror("Error with execve");
 		}
 		exit(EXIT_FAILURE);

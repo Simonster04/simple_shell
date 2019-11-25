@@ -16,14 +16,16 @@ extern char **environ;
 void psh_loop(char **envp)
 {
 	char **comms;
-	char *len = NULL, *path = NULL;
+	char *len = NULL;
 	int exec = 1, i, j;
 	char *username = "USER=";
 
-	signal(SIGINT, handle_sigint);
-
 	while (exec)
 	{
+		signal(SIGINT, handle_sigint);
+		if (isatty(STDIN_FILENO))
+			write(STDIN_FILENO, "($) ", 4);
+
 		for (i = 0; envp[i]; i++)
 		{
 			for (j = 0; j < 5; j++)
@@ -41,10 +43,9 @@ void psh_loop(char **envp)
 		len = psh_read_line();
 		comms = psh_tokenize(len);
 		exec = psh_execution(comms);
-
-		free(len);
-		free(comms);
 	}
+	free(len);
+	free_grid(comms);
 }
 
 /**

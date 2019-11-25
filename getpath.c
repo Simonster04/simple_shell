@@ -17,11 +17,13 @@ char **getthepath()
 	path = malloc(1024 * sizeof(char));
 	if (path == NULL)
 	{
+		free(path);
 		perror("malloc str");
 	}
 	splitpath = malloc(1024 * sizeof(char *));
 	if (splitpath == NULL)
 	{
+		free(path);
 		perror("Directories allocation");
 	}
 	for (i = 0; environ[i]; i++)
@@ -29,18 +31,18 @@ char **getthepath()
 		if (_strncmp(environ[i], name, 5) == 0)
 		{
 			_strcpy(path, environ[i]);
-			token =	strtok(path, ":");
+			token = strtok(path, ":");
 			for (j = 0; token; j++)
 			{
 				splitpath[j] = token;
 				token = strtok(NULL, ":");
 			}
 			splitpath[j] = NULL;
+			free(path);
 			return (splitpath);
 		}
 	}
 	perror("The path was not found");
-	free(path);
 	free(splitpath);
 	return (0);
 }
@@ -64,7 +66,11 @@ char **add_slash(void)
 	{return (NULL); }
 	path = malloc(sizeof(char) * 500);
 	if (path == NULL)
-	{return (NULL); }
+	{
+		free(path);
+		free(splitpath);
+		return (NULL);
+	}
 	for (i = 0; splitpath[i]; i++)
 	{
 		_strcpy(path, splitpath[i]);
@@ -99,6 +105,7 @@ char *access_check(char **splitpath, char **line, char *command)
 			return (command);
 		}
 	}
+	free_grid(splitpath);
 	return (NULL);
 }
 
