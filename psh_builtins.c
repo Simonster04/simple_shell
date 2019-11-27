@@ -52,6 +52,7 @@ int psh_help(char **args)
  *
  * Return: 0 on success
  */
+
 int psh_exit(char **args)
 {
 	(void) args;
@@ -61,8 +62,8 @@ int psh_exit(char **args)
 int psh_env(char **args)
 {
 	int i, j;
-	(void) args;
 
+	(void) args;
 	for (i = 0; environ[i]; i++)
 	{
 		for (j = 0; environ[i][j]; j++)

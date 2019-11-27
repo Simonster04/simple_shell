@@ -16,7 +16,7 @@ extern char **environ;
 void psh_loop(char **envp)
 {
 	char **comms;
-	char *len = NULL;
+	char *len;
 	int exec = 1, i, j;
 	char *username = "USER=";
 

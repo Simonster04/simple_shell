@@ -17,13 +17,14 @@ char **getthepath()
 	path = malloc(1024 * sizeof(char));
 	if (path == NULL)
 	{
-		perror("malloc str");
+		perror("allocation");
+		return (NULL);
 	}
 	splitpath = malloc(1024 * sizeof(char *));
 	if (splitpath == NULL)
 	{
-		free(path);
-		perror("Directories allocation");
+		perror("allocation");
+		return (NULL);
 	}
 	for (i = 0; environ[i]; i++)
 	{
@@ -37,13 +38,13 @@ char **getthepath()
 				token = strtok(NULL, ":");
 			}
 			splitpath[j] = NULL;
-/*SIMON*/			free(path);
+			free(path);
 			return (splitpath);
 		}
 	}
 	perror("The path was not found");
 	free(path);
-/*SIMON*/	free_grid(splitpath);
+	free(splitpath);
 	return (0);
 }
 
@@ -57,18 +58,20 @@ char **add_slash(void)
 {
 	int i;
 	char *path = NULL;
-	char **splitpath;
+	char **splitpath = NULL;
 	char **dir_com = NULL;
 
 	splitpath = getthepath();
-	dir_com = _calloc(1024, sizeof(char));
+	dir_com = malloc(1024 * sizeof(char));
 	if (dir_com == NULL)
-	{return (NULL); }
-	path = malloc(sizeof(char) * 500);
+	{
+		perror("allocation");
+		return (NULL);
+	}
+	path = malloc(1024 * sizeof(char));
 	if (path == NULL)
 	{
-/*SIMON*/		free_grid(dir_com);
-/*SIMON*/		free_grid(splitpath);
+		perror("allocation");
 		return (NULL);
 	}
 	for (i = 0; splitpath[i]; i++)
@@ -79,7 +82,7 @@ char **add_slash(void)
 		_strcpy(dir_com[i], path);
 	}
 	free(path);
-/*SIMON*/	free_grid(splitpath);
+	free(splitpath);
 	return (dir_com);
 }
 

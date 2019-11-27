@@ -59,7 +59,9 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
  */
 void free_grid(char **grid)
 {
-	char **temp = grid;
+	char **temp = NULL;
+
+	temp = grid;
 
 	if (!grid)
 	{

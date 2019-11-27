@@ -21,8 +21,8 @@ char *psh_read_line(void)
 {
 
 	int i;
-	ssize_t lineptr;
-	size_t sz = 1024;
+	ssize_t lineptr = 0;
+	size_t sz = 0;
 	char *line = NULL;
 
 	line = malloc(sizeof(char) * sz);
@@ -60,13 +60,14 @@ char *psh_read_line(void)
  */
 char **psh_tokenize(char *args)
 {
-	char *len = NULL;
-	int pos = 0, buff = PSH_BUFF_SIZE, buff2 = PSH_BUFF_SIZE;
+	char *len;
+	int pos = 0, buff = PSH_BUFF_SIZE;/* buff2 = PSH_BUFF_SIZE;*/
 	char **line;
 
 	line = malloc(sizeof(char *) * buff);
 	if (line == NULL)
 	{
+		perror("malloc");
 		exit(-1);
 	}
 
@@ -77,7 +78,7 @@ char **psh_tokenize(char *args)
 		pos++;
 		len = strtok(NULL, " \t\n\r");
 	}
-	if (pos >= buff)
+/*	if (pos >= buff)
 	{
 		buff2 += PSH_BUFF_SIZE;
 		line = _realloc(line, sizeof(char *) * buff, sizeof(char *) * buff2);
@@ -87,7 +88,7 @@ char **psh_tokenize(char *args)
 			return (NULL);
 		}
 	}
-	line[pos] = NULL;/*SI FALLA, PA LA PM*/
+*/	line[pos] = NULL;
 	return (line);
 }
 
@@ -154,31 +155,29 @@ int psh_init(char **line)
 		{
 			if (line[0][i] == '/')
 			{
-/*				free_grid(dir_com);*/
-				if (execve(line[0], line, environ) == -1)
+				free_grid(dir_com);
+				if (execve(line[0], line, NULL) == -1)
 				{
 					perror("Command");
-/*SIMON*/				free_grid(dir_com);
 					free_grid(line);
-/*SIMON*/				free(command);
 					exit(0);
 				}
-/*				free(line);*/
+				free(line);
 			}
 		}
-		if (execve(command, line, environ) < 0)
+		if (execve(command, line, NULL) < 0)
 		{
-/*SIMON*/		free_grid(line);
-/*SIMON*/		free_grid(dir_com);
-/*SIMON*/		free(command);
+			free_grid(line);
+			free_grid(dir_com);
+			free(command);
 			perror("Error with execve");
 			exit(0);
 		}
 	}
 	else if (pid < 0)
 	{
-/*SIMON*/	free_grid(line);
-/*SIMON*/	free_grid(dir_com);
+		free(line);
+		free_grid(dir_com);
 		perror("Error process failure");
 	}
 	else
@@ -187,9 +186,7 @@ int psh_init(char **line)
 		waitpid(pid, &status_w, WUNTRACED);
 		} while ((WIFEXITED(status_w) == 0) && (WIFSIGNALED(status_w) == 0));
 
-/*SIMON*/	/*free_grid(line);*/
-/*SIMON*/	free(command);
-		/*free_grid(dir_com);*/
+		free_grid(dir_com);
 	}
 	return (1);
 }
