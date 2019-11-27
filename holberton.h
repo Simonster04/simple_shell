@@ -1,6 +1,5 @@
 #ifndef HOLBERTON_H
 #define HOLBERTON_H
-#define _GNU_SOURCE
 
 #include <signal.h>
 #include <stdlib.h>
