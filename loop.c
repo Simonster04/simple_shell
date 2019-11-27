@@ -44,9 +44,10 @@ void psh_loop(char **envp)
 		len = psh_read_line();
 		comms = psh_tokenize(len);
 		exec = psh_execution(comms);
+
+		free(comms);
+		free(len);
 	}
-/*	free_grid(comms);*/
-	free(len);
 }
 
 /**

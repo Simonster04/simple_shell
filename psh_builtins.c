@@ -25,7 +25,6 @@ int psh_cd(char **args)
 			perror("chdir fails");
 		}
 	}
-/*SIMON*/	free_grid(args);
 	return (1);
 }
 
@@ -38,8 +37,8 @@ int psh_cd(char **args)
 
 int psh_help(char **args)
 {
-	/*(void) args;*/
-/*SIMON*/free_grid(args);
+	(void) args;
+
 	write(STDOUT_FILENO, "Tomás and Simón's Shell\n", 26);
 	write(STDOUT_FILENO, "Those are our built-in commands:\n", 33);
 	write(STDOUT_FILENO, "> cd\n> help\n> exit\n", 19);
@@ -55,17 +54,14 @@ int psh_help(char **args)
  */
 int psh_exit(char **args)
 {
-	/*(void) args;*/
-/*SIMON*/free_grid(args);
-	/* necesita un free??*/
+	(void) args;
 	return (0);
 }
 
 int psh_env(char **args)
 {
 	int i, j;
-	/*(void) args;*/
-/*SIMON*/free_grid(args);
+	(void) args;
 
 	for (i = 0; environ[i]; i++)
 	{

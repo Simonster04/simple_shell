@@ -35,7 +35,7 @@ char *psh_read_line(void)
 	if (lineptr == EOF)
 	{
 		free(line);
-		return (NULL);
+		exit (0);
 	}
 	if (lineptr == -1)
 	{
@@ -67,8 +67,7 @@ char **psh_tokenize(char *args)
 	line = malloc(sizeof(char *) * buff);
 	if (line == NULL)
 	{
-/*		free(line);*/
-		return (NULL);
+		exit(-1);
 	}
 
 	len = strtok(args, " \t\n\r");
@@ -159,9 +158,9 @@ int psh_init(char **line)
 				if (execve(line[0], line, environ) == -1)
 				{
 					perror("Command");
-/*SIMON*/					free_grid(dir_com);
+/*SIMON*/				free_grid(dir_com);
 					free_grid(line);
-/*SIMON*/			free(command);
+/*SIMON*/				free(command);
 					exit(0);
 				}
 /*				free(line);*/
@@ -169,17 +168,17 @@ int psh_init(char **line)
 		}
 		if (execve(command, line, environ) < 0)
 		{
-/*SIMON*/			free_grid(line);
-/*SIMON*/			free_grid(dir_com);
-/*SIMON*/			free(command);
+/*SIMON*/		free_grid(line);
+/*SIMON*/		free_grid(dir_com);
+/*SIMON*/		free(command);
 			perror("Error with execve");
+			exit(0);
 		}
-		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
-/*SIMON*/		free_grid(line);
-/*SIMON*/		free_grid(dir_com);
+/*SIMON*/	free_grid(line);
+/*SIMON*/	free_grid(dir_com);
 		perror("Error process failure");
 	}
 	else
@@ -187,10 +186,11 @@ int psh_init(char **line)
 		do {
 		waitpid(pid, &status_w, WUNTRACED);
 		} while ((WIFEXITED(status_w) == 0) && (WIFSIGNALED(status_w) == 0));
+
+/*SIMON*/	/*free_grid(line);*/
+/*SIMON*/	free(command);
+		/*free_grid(dir_com);*/
 	}
-/*SIMON*/		free_grid(line);
-/*SIMON*/		free(command);
-	free_grid(dir_com);
 	return (1);
 }
 
