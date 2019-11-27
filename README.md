@@ -73,3 +73,13 @@ Press enter
  - psh_loop
  - psh_read_line
  - _putchar
+ - psh_execution
+ - _cealloc
+ - free_grid
+ - getpath
+ - getthepath
+ - add_slash
+ - access_check
+ - _strncpy
+ - complete_command
+
