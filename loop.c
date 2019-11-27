@@ -2,8 +2,7 @@
 
 /**
  * psh_loop - Runs the simple shell process and calls every function needed
- * @envp: list with enviroment variables
- * Return: Doesn't return nothing
+  * Return: Doesn't return nothing
  */
 
 void psh_loop(void)
@@ -18,20 +17,21 @@ void psh_loop(void)
 		signal(SIGINT, handle_sigint);
 		if (isatty(STDIN_FILENO))
 		{/*
-			for (i = 0; envp[i]; i++)
-			{
-				for (j = 0; j < 5; j++)
-				{
-					if (username[j] != envp[i][j])
-						{break; }
-					while (envp[i][j + 5])
-					{
-						_putchar(envp[i][j + 5]);
-						j++;
-					}
-					break;
-				}
-			}*/
+*			for (i = 0; envp[i]; i++)
+*			{
+*				for (j = 0; j < 5; j++)
+*				{
+*					if (username[j] != envp[i][j])
+*						{break; }
+*					while (envp[i][j + 5])
+*					{
+*						_putchar(envp[i][j + 5]);
+*						j++;
+*					}
+*					break;
+*				}
+*			}
+*/
 			write(STDOUT_FILENO, "($) ", 4);
 		}
 
