@@ -10,28 +10,12 @@ void psh_loop(void)
 	char **comms;
 	char *len;
 	int exec = 1;
-/*	char *username = "USER=";*/
 
 	while (exec)
 	{
 		signal(SIGINT, handle_sigint);
 		if (isatty(STDIN_FILENO))
-		{/*
-*			for (i = 0; envp[i]; i++)
-*			{
-*				for (j = 0; j < 5; j++)
-*				{
-*					if (username[j] != envp[i][j])
-*						{break; }
-*					while (envp[i][j + 5])
-*					{
-*						_putchar(envp[i][j + 5]);
-*						j++;
-*					}
-*					break;
-*				}
-*			}
-*/
+		{
 			write(STDOUT_FILENO, "($) ", 4);
 		}
 
@@ -85,23 +69,7 @@ void *_calloc(unsigned int nmemb, unsigned int size)
 
 void handle_sigint(int sig)
 {
-	char *username = "USER=";
-	int i, j;
-
 	(void)sig;
 	_putchar('\n');
-	for (i = 0; environ[i]; i++)
-	{
-		for (j = 0; j < 5; j++)
-		{
-			if (username[j] != environ[i][j])
-			{break; }
-			while (environ[i][j + 5])
-			{
-				_putchar(environ[i][j + 5]);
-				j++;
-			}
-		}
-	}
-	write(STDOUT_FILENO, "$ ", 2);
+	write(STDOUT_FILENO, "($) ", 4);
 }
