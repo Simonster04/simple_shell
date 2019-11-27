@@ -14,6 +14,7 @@
 
 extern char **environ;
 
+void child(char **dir_com, char **line, char *command);
 char *access_check(char **splitpath, char **line, char *command);
 char **getthepath(void);
 char **add_slash(void);

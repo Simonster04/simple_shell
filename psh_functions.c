@@ -128,43 +128,14 @@ int psh_init(char **line)
 	pid_t pid;
 	char **dir_com = NULL;
 	char *command = NULL;
-	int status_w = 0, i;
+	int status_w = 0;
 
 	dir_com = add_slash();
 	command = access_check(dir_com, line, command);
 	pid = fork();
 	if (pid == 0)
 	{
-		for (i = 0; line[0][i]; i++)
-		{
-			if (line[0][i] == '/')
-			{
-				free_grid(dir_com);
-				if (execve(line[0], line, environ) < 0)
-				{
-					perror("Command");
-					free_grid(line);
-					exit(0);
-				}
-				free(line);
-			}
-		}
-		if (!command)
-		{
-			free_grid(dir_com);
-			free_grid(line);
-			exit(0);
-		}
-		if (execve(command, line, environ) < 0)
-		{
-			free_grid(line);
-			free(command);
-			free_grid(dir_com);
-			perror("Error with execve");
-			exit(0);
-		}
-		free(line);
-		free_grid(dir_com);
+		child(dir_com, line, command);
 	}
 	else if (pid < 0)
 	{
@@ -182,3 +153,47 @@ int psh_init(char **line)
 	return (1);
 }
 
+/**
+ * child - initialize a ppid and pid process
+ * @line: the commands it will execute
+ * @dir_com: path with slash concatenated
+ * @command: pointer command with path concatented
+ * Return: void
+ */
+
+void child(char **dir_com, char **line, char *command)
+{
+	int i;
+
+	for (i = 0; line[0][i]; i++)
+	{
+		if (line[0][i] == '/')
+		{
+			free_grid(dir_com);
+			if (execve(line[0], line, environ) < 0)
+			{
+				perror("Command");
+				free_grid(line);
+				exit(0);
+			}
+			free(line);
+		}
+	}
+	if (!command)
+	{
+		free_grid(dir_com);
+		free_grid(line);
+		perror(command);
+		exit(0);
+	}
+	if (execve(command, line, environ) < 0)
+	{
+		free_grid(line);
+		free(command);
+		free_grid(dir_com);
+		perror("Error with execve");
+		exit(0);
+	}
+	free(line);
+	free_grid(dir_com);
+}
