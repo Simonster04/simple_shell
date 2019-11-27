@@ -183,7 +183,7 @@ void child(char **dir_com, char **line, char *command)
 	{
 		free_grid(dir_com);
 		free_grid(line);
-		perror(command);
+		perror("./hsh");
 		exit(0);
 	}
 	if (execve(command, line, environ) < 0)

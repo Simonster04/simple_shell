@@ -6,18 +6,18 @@
  * Return: Doesn't return nothing
  */
 
-void psh_loop(char **envp)
+void psh_loop(void)
 {
 	char **comms;
 	char *len;
-	int exec = 1, i, j;
-	char *username = "USER=";
+	int exec = 1;
+/*	char *username = "USER=";*/
 
 	while (exec)
 	{
 		signal(SIGINT, handle_sigint);
 		if (isatty(STDIN_FILENO))
-		{
+		{/*
 			for (i = 0; envp[i]; i++)
 			{
 				for (j = 0; j < 5; j++)
@@ -31,8 +31,8 @@ void psh_loop(char **envp)
 					}
 					break;
 				}
-			}
-			write(STDOUT_FILENO, "$ ", 2);
+			}*/
+			write(STDOUT_FILENO, "($) ", 4);
 		}
 
 		len = psh_read_line();

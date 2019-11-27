@@ -12,9 +12,10 @@
 
 int main(int ac, char **av, char **envp)
 {
-	psh_loop(envp);
+	psh_loop();
 	(void)ac;
 	(void)av;
+	(void)envp;
 	return (0);
 }
 

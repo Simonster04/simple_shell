@@ -24,7 +24,7 @@ int psh_help(char **args);
 int psh_exit(char **args);
 int _putchar(char c);
 char *psh_read_line(void);
-void psh_loop(char **envp);
+void psh_loop(void);
 char **psh_tokenize(char *len);
 int psh_execution(char **line);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
