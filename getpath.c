@@ -1,7 +1,5 @@
 #include "holberton.h"
 
-extern char **environ;
-
 /**
  * getthepath - splits the path in different tokens
  *

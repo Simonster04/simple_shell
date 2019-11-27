@@ -1,15 +1,4 @@
 #include "holberton.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-
-#define PSH_BUFF_SIZE 64;
-extern char **environ;
-
-int psh_init(char **line);
 
 /**
  * psh_read_line - reads a line from the standar inputa console
@@ -25,17 +14,11 @@ char *psh_read_line(void)
 	size_t sz = 0;
 	char *line = NULL;
 
-/*	line = malloc(sizeof(char) * sz);
-	if (line == NULL)
-	{
-		return (NULL);
-	}
-*/
 	lineptr = getline(&line, &sz, stdin);
 	if (lineptr == EOF)
 	{
 		free(line);
-		exit (0);
+		exit(0);
 
 	}
 	if (lineptr == -1)
@@ -98,7 +81,6 @@ char **psh_tokenize(char *args)
 /**
  * psh_execution - calls the builtin functions the simple shell has
  * @line: the commands it will execute
-
  *
  * Return: initializes the pid function process
  */

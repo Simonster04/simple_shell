@@ -1,15 +1,8 @@
 #include "holberton.h"
-#include <stdio.h>
-#include <signal.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-
-extern char **environ;
 
 /**
  * psh_loop - Runs the simple shell process and calls every function needed
- *
+ * @envp: list with enviroment variables
  * Return: Doesn't return nothing
  */
 
@@ -31,7 +24,7 @@ void psh_loop(char **envp)
 				{
 					if (username[j] != envp[i][j])
 						{break; }
-					while(envp[i][j + 5])
+					while (envp[i][j + 5])
 					{
 						_putchar(envp[i][j + 5]);
 						j++;
@@ -83,6 +76,13 @@ void *_calloc(unsigned int nmemb, unsigned int size)
 	return (p);
 }
 
+/**
+ * handle_sigint - replaces ctrl+c
+ * @sig: comodin.
+ *
+ * Return: void.
+ */
+
 void handle_sigint(int sig)
 {
 	char *username = "USER=";
@@ -96,7 +96,7 @@ void handle_sigint(int sig)
 		{
 			if (username[j] != environ[i][j])
 			{break; }
-			while(environ[i][j + 5])
+			while (environ[i][j + 5])
 			{
 				_putchar(environ[i][j + 5]);
 				j++;

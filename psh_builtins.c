@@ -1,8 +1,4 @@
 #include "holberton.h"
-#include <stdlib.h>
-#include <unistd.h>
-
-extern char **environ;
 
 /**
  * psh_cd - Returns to the main repository
@@ -58,6 +54,13 @@ int psh_exit(char **args)
 	(void) args;
 	return (0);
 }
+
+/**
+ * psh_env - print the enviromental variables
+ * @args: double pointer indicating the structure where commands are stored
+ *
+ * Return: 1 on success
+ */
 
 int psh_env(char **args)
 {
