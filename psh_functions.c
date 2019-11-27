@@ -6,7 +6,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#define PSH_BUFF_SIZE 1024
+#define PSH_BUFF_SIZE 64;
 extern char **environ;
 
 int psh_init(char **line);
@@ -25,17 +25,18 @@ char *psh_read_line(void)
 	size_t sz = 0;
 	char *line = NULL;
 
-	line = malloc(sizeof(char) * sz);
+/*	line = malloc(sizeof(char) * sz);
 	if (line == NULL)
 	{
 		return (NULL);
 	}
-
+*/
 	lineptr = getline(&line, &sz, stdin);
 	if (lineptr == EOF)
 	{
 		free(line);
 		exit (0);
+
 	}
 	if (lineptr == -1)
 	{
@@ -60,15 +61,17 @@ char *psh_read_line(void)
  */
 char **psh_tokenize(char *args)
 {
+	int pos = 0, buff, buff2;
 	char *len;
-	int pos = 0, buff = PSH_BUFF_SIZE;/* buff2 = PSH_BUFF_SIZE;*/
 	char **line;
 
-	line = malloc(sizeof(char *) * buff);
+	buff = PSH_BUFF_SIZE;
+	buff2 = PSH_BUFF_SIZE;
+	line = malloc(buff * sizeof(char *));
 	if (line == NULL)
 	{
 		perror("malloc");
-		exit(-1);
+		exit(1);
 	}
 
 	len = strtok(args, " \t\n\r");
@@ -78,7 +81,7 @@ char **psh_tokenize(char *args)
 		pos++;
 		len = strtok(NULL, " \t\n\r");
 	}
-/*	if (pos >= buff)
+	if (pos >= buff)
 	{
 		buff2 += PSH_BUFF_SIZE;
 		line = _realloc(line, sizeof(char *) * buff, sizeof(char *) * buff2);
@@ -88,7 +91,7 @@ char **psh_tokenize(char *args)
 			return (NULL);
 		}
 	}
-*/	line[pos] = NULL;
+	line[pos] = NULL;
 	return (line);
 }
 
@@ -147,7 +150,6 @@ int psh_init(char **line)
 
 	dir_com = add_slash();
 	command = access_check(dir_com, line, command);
-
 	pid = fork();
 	if (pid == 0)
 	{
@@ -156,7 +158,7 @@ int psh_init(char **line)
 			if (line[0][i] == '/')
 			{
 				free_grid(dir_com);
-				if (execve(line[0], line, NULL) == -1)
+				if (execve(line[0], line, environ) < 0)
 				{
 					perror("Command");
 					free_grid(line);
@@ -165,19 +167,27 @@ int psh_init(char **line)
 				free(line);
 			}
 		}
-		if (execve(command, line, NULL) < 0)
+		if (!command)
+		{
+			free_grid(dir_com);
+			free_grid(line);
+			exit(0);
+		}
+		if (execve(command, line, environ) < 0)
 		{
 			free_grid(line);
-			free_grid(dir_com);
 			free(command);
+			free_grid(dir_com);
 			perror("Error with execve");
 			exit(0);
 		}
+		free(line);
+		free_grid(dir_com);
 	}
 	else if (pid < 0)
 	{
-		free(line);
 		free_grid(dir_com);
+		free_grid(line);
 		perror("Error process failure");
 	}
 	else
@@ -185,7 +195,6 @@ int psh_init(char **line)
 		do {
 		waitpid(pid, &status_w, WUNTRACED);
 		} while ((WIFEXITED(status_w) == 0) && (WIFSIGNALED(status_w) == 0));
-
 		free_grid(dir_com);
 	}
 	return (1);

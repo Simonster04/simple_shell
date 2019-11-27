@@ -11,8 +11,8 @@ extern char **environ;
 char **getthepath()
 {
 	int i, j;
-	char *path = NULL, *token = NULL, *name = "PATH=";
-	char **splitpath = NULL;
+	char *path, *token, *name = "PATH=";
+	char **splitpath;
 
 	path = malloc(1024 * sizeof(char));
 	if (path == NULL)
@@ -38,7 +38,6 @@ char **getthepath()
 				token = strtok(NULL, ":");
 			}
 			splitpath[j] = NULL;
-			free(path);
 			return (splitpath);
 		}
 	}
@@ -57,12 +56,12 @@ char **getthepath()
 char **add_slash(void)
 {
 	int i;
-	char *path = NULL;
-	char **splitpath = NULL;
+	char *path;
+	char **splitpath;
 	char **dir_com = NULL;
 
 	splitpath = getthepath();
-	dir_com = malloc(1024 * sizeof(char));
+	dir_com = _calloc(1024, sizeof(char));
 	if (dir_com == NULL)
 	{
 		perror("allocation");
@@ -81,8 +80,9 @@ char **add_slash(void)
 		dir_com[i] = malloc(sizeof(char) * 1024);
 		_strcpy(dir_com[i], path);
 	}
-	free(path);
+	free(splitpath[0]);
 	free(splitpath);
+	free(path);
 	return (dir_com);
 }
 

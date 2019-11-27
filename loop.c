@@ -36,6 +36,7 @@ void psh_loop(char **envp)
 						_putchar(envp[i][j + 5]);
 						j++;
 					}
+					break;
 				}
 			}
 			write(STDOUT_FILENO, "$ ", 2);
@@ -45,8 +46,8 @@ void psh_loop(char **envp)
 		comms = psh_tokenize(len);
 		exec = psh_execution(comms);
 
-		free(comms);
 		free(len);
+		free(comms);
 	}
 }
 
@@ -104,4 +105,3 @@ void handle_sigint(int sig)
 	}
 	write(STDOUT_FILENO, "$ ", 2);
 }
-
