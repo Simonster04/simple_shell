@@ -24,28 +24,29 @@ void psh_loop(char **envp)
 	{
 		signal(SIGINT, handle_sigint);
 		if (isatty(STDIN_FILENO))
-			write(STDIN_FILENO, "($) ", 4);
-
-		for (i = 0; envp[i]; i++)
 		{
-			for (j = 0; j < 5; j++)
-              		{
-				if (username[j] != envp[i][j])
-					{break; }
-				while(envp[i][j + 5])
+			for (i = 0; envp[i]; i++)
+			{
+				for (j = 0; j < 5; j++)
 				{
-					_putchar(envp[i][j + 5]);
-					j++;
+					if (username[j] != envp[i][j])
+						{break; }
+					while(envp[i][j + 5])
+					{
+						_putchar(envp[i][j + 5]);
+						j++;
+					}
 				}
 			}
+			write(STDOUT_FILENO, "$ ", 2);
 		}
-		write(STDOUT_FILENO, "$ ", 2);
+
 		len = psh_read_line();
 		comms = psh_tokenize(len);
 		exec = psh_execution(comms);
 	}
+/*	free_grid(comms);*/
 	free(len);
-	free_grid(comms);
 }
 
 /**

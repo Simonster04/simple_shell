@@ -65,7 +65,7 @@ void free_grid(char **grid)
 	{
 		return;
 	}
-	while (grid)
+	while (*grid)
 	{
 		free(*grid++);
 	}

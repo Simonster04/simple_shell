@@ -6,7 +6,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#define PSH_BUFF_SIZE 64
+#define PSH_BUFF_SIZE 1024
 extern char **environ;
 
 int psh_init(char **line);
@@ -19,21 +19,20 @@ int psh_init(char **line);
 
 char *psh_read_line(void)
 {
-	size_t sz = 1024;
-	char *line = NULL;
+
 	int i;
 	ssize_t lineptr;
+	size_t sz = 1024;
+	char *line = NULL;
 
 	line = malloc(sizeof(char) * sz);
 	if (line == NULL)
 	{
-/*		free(line);*/
-		perror("malloc");
 		return (NULL);
 	}
 
 	lineptr = getline(&line, &sz, stdin);
-	if (lineptr == 0)
+	if (lineptr == EOF)
 	{
 		free(line);
 		return (NULL);
@@ -72,12 +71,12 @@ char **psh_tokenize(char *args)
 		return (NULL);
 	}
 
-	len = strtok(args, "\t\n\r ");
+	len = strtok(args, " \t\n\r");
 	while (len)
 	{
 		line[pos] = len;
 		pos++;
-		len = strtok(NULL, "\t\n\r ");
+		len = strtok(NULL, " \t\n\r");
 	}
 	if (pos >= buff)
 	{
@@ -89,8 +88,7 @@ char **psh_tokenize(char *args)
 			return (NULL);
 		}
 	}
-
-	line[pos] = NULL;
+	line[pos] = NULL;/*SI FALLA, PA LA PM*/
 	return (line);
 }
 
@@ -161,7 +159,9 @@ int psh_init(char **line)
 				if (execve(line[0], line, environ) == -1)
 				{
 					perror("Command");
-/*					free_grid(line);*/
+/*SIMON*/					free_grid(dir_com);
+					free_grid(line);
+/*SIMON*/			free(command);
 					exit(0);
 				}
 /*				free(line);*/
@@ -169,14 +169,17 @@ int psh_init(char **line)
 		}
 		if (execve(command, line, environ) < 0)
 		{
-/*			free(line);*/
+/*SIMON*/			free_grid(line);
+/*SIMON*/			free_grid(dir_com);
+/*SIMON*/			free(command);
 			perror("Error with execve");
 		}
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
-		free(line);
+/*SIMON*/		free_grid(line);
+/*SIMON*/		free_grid(dir_com);
 		perror("Error process failure");
 	}
 	else
@@ -185,6 +188,9 @@ int psh_init(char **line)
 		waitpid(pid, &status_w, WUNTRACED);
 		} while ((WIFEXITED(status_w) == 0) && (WIFSIGNALED(status_w) == 0));
 	}
+/*SIMON*/		free_grid(line);
+/*SIMON*/		free(command);
+	free_grid(dir_com);
 	return (1);
 }
 

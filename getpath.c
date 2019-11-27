@@ -11,13 +11,12 @@ extern char **environ;
 char **getthepath()
 {
 	int i, j;
-	char *path = NULL, *token, *name = "PATH=";
+	char *path = NULL, *token = NULL, *name = "PATH=";
 	char **splitpath = NULL;
 
 	path = malloc(1024 * sizeof(char));
 	if (path == NULL)
 	{
-		free(path);
 		perror("malloc str");
 	}
 	splitpath = malloc(1024 * sizeof(char *));
@@ -38,12 +37,13 @@ char **getthepath()
 				token = strtok(NULL, ":");
 			}
 			splitpath[j] = NULL;
-			free(path);
+/*SIMON*/			free(path);
 			return (splitpath);
 		}
 	}
 	perror("The path was not found");
-	free(splitpath);
+	free(path);
+/*SIMON*/	free_grid(splitpath);
 	return (0);
 }
 
@@ -67,8 +67,8 @@ char **add_slash(void)
 	path = malloc(sizeof(char) * 500);
 	if (path == NULL)
 	{
-		free(path);
-		free(splitpath);
+/*SIMON*/		free_grid(dir_com);
+/*SIMON*/		free_grid(splitpath);
 		return (NULL);
 	}
 	for (i = 0; splitpath[i]; i++)
@@ -79,7 +79,7 @@ char **add_slash(void)
 		_strcpy(dir_com[i], path);
 	}
 	free(path);
-	free(splitpath);
+/*SIMON*/	free_grid(splitpath);
 	return (dir_com);
 }
 
@@ -105,7 +105,6 @@ char *access_check(char **splitpath, char **line, char *command)
 			return (command);
 		}
 	}
-	free_grid(splitpath);
 	return (NULL);
 }
 
@@ -129,7 +128,7 @@ int _strncmp(char *s1, const char *s2, int n)
 			dif = s1[i] - s2[i];
 			break;
 		}
-	i++;
+		i++;
 	}
 	return (dif);
 }
