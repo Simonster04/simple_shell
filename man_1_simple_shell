@@ -19,59 +19,55 @@ If hsh is invoked, $ is set to the name of the file, and the positional paramete
 .SH INVOCATION
 To start the shell its necessary to execute the hsh program. When the shell is invoked as an interactive shell where the system logs in and open a terminal to type and execute commands. Also it can ve invoked as non-interactive, simply by teneting to the system, the shell eexecutes the command and exits automatically. 
 
-.B FUNCTION DEFINITIONS
+.B OPTIONS
 
-.B SHELL VARIABLES 
+.B ENVIROMENTAL VARIABLES 
+
+env>----Prints the enviroment variables present in the shell.
+
+pwd>----Prints the actual PATH the user is on.
 
 .B FORMAT COMMANDS basic shell commands:
-
-env	Prints the enviroment variables present in the shell.
 
 cd	Changes the working directory or returns to the first dir.
 
 help	Prints the commands listed in the simple shell.
 
-pwd	Prints the actual PATH the user is on.
-
 ls	Prints the files present in the current working directory.
 
-exit	Exits properly from the simple shell.
+.B EXIT
+
+exit	Exits properly from the simple shell. The exit status of an executed command is the value returned by the waitpid system call or equivalent function. Exit statuses fall between 0 and 255, though, as explained below, the shell may use values above 125 specially. Exit statuses from shell builtins and compound commands are also limited to this range. Under certain circumstances, the shell will use special values to indicate specific failure modes. 
 
 
 .SH RETURN VALUE
 Upon successful return, the simple shell will return the result of the executed command. If an output error is encountered, a display message will indicate what went wrong in the execution of the process.
 
-.SH CONVERSION SPECIFIER
-A character that specifies the type of conversion to be applied. The conversion specifier and their meanings are:
-
-.TP
-\fBd\fR, \fBi\fR
-The int argument is converted to signed decimal notation. The precision, if any, gives the minimum number of digits that must appear.
-
-.TP
-\fBc\fR
-If no l modifier is present, the int argument is converted to an unsigned char, and the resulting character is written.
-.TP
-
-\fBs\fR
-If no l modifier is present: The const char * argument is expected to be a pointer to an array of character type (pointer to a string). Characters from the array are written up to (but not including) a terminating null byte ('\0').
-
-.TP
-\fB%\fR
-A '%' is written. No argument is converted. The complete conversion specification is '%%'.
-
 .SH SEE ALSO
-.B printf(3)
+.B hsh
 
 .SH BUGS
 None found at the moment.
 
 .SH EXAMPLE
-To print the string "Print a string":
+This happens when you run the command ```env``` after running this shell:
+
+```bash
+$ env
+USER=julien
+LANGUAGE=en_US
+SESSION=ubuntu
+COMPIZ_CONFIG_PROFILE=ubuntu
+SHLVL=1
+HOME=/home/julien
+C_IS=Fun_:)
+DESKTOP_SESSION=ubuntu
+LOGNAME=julien
+TERM=xterm-256color
+PATH=/home/julien/bin:/home/julien/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+DISPLAY=:0
 
 #include "holberton.h"
-
- _printf ("%s", "Print a string");
 
 
 .SH AUTHORS
