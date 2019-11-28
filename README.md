@@ -4,9 +4,12 @@
 ## What is simple shell
 *our version of simple shell using in C programming languages, building a sketch about of LINUX shell.
 
-###hsh
-#include <stdlib.h> #include <stdarg.h> #include "holberton.h"
-
+### hsh
+```bash
+#include <stdlib.h> 
+#include <stdarg.h> 
+#include "holberton.h"
+``
 /** *simple shell - our version of shell command interpreter* */
 
 To initialize the simple shell just run ./hsh
@@ -15,6 +18,18 @@ There type an executable command and press enter, the simple shell should execut
 
 ### Description
 Its a Unix shell created by Simon Parra and Tomas Mejia, students at Holberton school. the simple shell is a command processor that run in a text window, allowing the user to type commands. The idea is to replicate the exact same process of some of the commands as the actual shell processes. This project was completed as a part of the curriculum for Holberton School.
+
+### Requirements
+
+This was made it for running in a ```Ubuntu 14.04 LTS``` Linux enviroment.
+
+### Installation
+
+ - Clone the repository
+ - Change directories into the repository
+ - Compile with ```gcc -Wall -Werror -Wextra -pedantic *.c -o hsh```
+ - Run the shell in interactive mode with ```./hsh```
+ - Or in non-interactive like ```echo "ls" | ./hsh```
 
 ### Usage
 The directory contents should be compiled with the following command:
@@ -83,7 +98,7 @@ Press enter
 
 ### Example
 
-This happens when you run the command ```bash env``` after running this shell:
+This happens when you run the command ```env``` after running this shell:
 
 ```bash
 $ env
@@ -107,9 +122,9 @@ Bugs are unknown for this shell.
 
 ### Authors
 
-Tomás Mejía | [Github] (https://github.com/towasme/)
+Tomás Mejía | [Github](https://github.com/towasme/) | [Twitter](https://twitter.com/towasme)
 
-Simón Parra | [Github] (https://github.com/Simonster04/)
+Simón Parra | [Github](https://github.com/Simonster04/) | [Twitter](https://twitter.com/Simonster04)
 
 ### License
 
