@@ -1,7 +1,5 @@
 # Simple Shell
 ### Medellin 2019
-### Simón Parra
-### Tomás Mejía
 
 ## What is simple shell
 *our version of simple shell using in C programming languages, building a sketch about of LINUX shell.
@@ -83,3 +81,36 @@ Press enter
  - _strncpy
  - complete_command
 
+### Example
+
+This happens when you run the command ```bash env``` after running this shell:
+
+```bash
+$ env
+USER=julien
+LANGUAGE=en_US
+SESSION=ubuntu
+COMPIZ_CONFIG_PROFILE=ubuntu
+SHLVL=1
+HOME=/home/julien
+C_IS=Fun_:)
+DESKTOP_SESSION=ubuntu
+LOGNAME=julien
+TERM=xterm-256color
+PATH=/home/julien/bin:/home/julien/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+DISPLAY=:0
+```
+
+### Bugs
+
+Bugs are unknown for this shell.
+
+### Authors
+
+Tomás Mejía | [Github] (https://github.com/towasme/)
+
+Simón Parra | [Github] (https://github.com/Simonster04/)
+
+### License
+
+This project has no license. Just copy and enjoy.
