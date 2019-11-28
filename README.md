@@ -1,8 +1,8 @@
 # Simple Shell
 ### Medellin 2019
 
-## What is simple shell
-*our version of simple shell using in C programming languages, building a sketch about of LINUX shell.
+## What is "simple shell"
+our version of simple shell using in C programming languages, building a sketch about of LINUX shell.
 
 ### hsh
 
@@ -35,14 +35,15 @@ This was made it for running in a ```Ubuntu 14.04 LTS``` Linux enviroment.
 
 ### Usage
 The directory contents should be compiled with the following command:
-
-$ gcc -Wall -Werror -Wextra -pedantic -Wno-format *.c -o hsh 
+```bash
+$ gcc -Wall -Werror -Wextra -pedantic -Wno-format *.c -o hsh
+```
 The program may be used, in any C language program, just execute the file hsh.
 
 The way to write and execute command goes like this:
-
+```bash
 $ [WRITE COMMANDS]
-
+```
 Press enter
 
 ### Speacial Features to execute
