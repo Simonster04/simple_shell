@@ -19,7 +19,6 @@ char *psh_read_line(void)
 	{
 		free(line);
 		exit(0);
-
 	}
 	if (lineptr == -1)
 	{
